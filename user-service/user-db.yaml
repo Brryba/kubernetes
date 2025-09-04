@@ -19,6 +19,9 @@ spec:
           image: postgres:latest
           ports:
             - containerPort: 5432
+          volumeMounts:
+            - name: auth-db-pvc
+              mountPath: /var/lib/postgresql/data
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -35,8 +38,26 @@ spec:
                 secretKeyRef:
                   key: DB_USER_SCHEMA
                   name: innowise-app-secret
+      volumes:
+        - name: auth-db-pvc
+          persistentVolumeClaim:
+            claimName: auth-db-pvc
 
 ---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: user-db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+
+---
+
 apiVersion: v1
 kind: Service
 metadata:
