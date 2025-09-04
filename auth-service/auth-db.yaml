@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-db-deployment
+  name: auth-db-deployment
   labels:
-    app: user-db
+    app: auth-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-db
+      app: auth-db
   template:
     metadata:
       labels:
-        app: user-db
+        app: auth-db
     spec:
       containers:
         - name: postgres
@@ -33,17 +33,17 @@ spec:
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  key: DB_USER_SCHEMA
+                  key: DB_AUTH_SCHEMA
                   name: innowise-app-secret
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-db
+  name: auth-db
 spec:
   selector:
-    app: user-db
+    app: auth-db
   ports:
     - protocol: TCP
       port: 5432

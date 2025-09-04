@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-service-deployment
+  name: auth-service-deployment
   labels:
-    app: user-service
+    app: auth-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: user-service
+      app: auth-service
   template:
     metadata:
       labels:
-        app: user-service
+        app: auth-service
     spec:
       containers:
-        - name: user-service
-          image: user-service:latest
+        - name: auth-service
+          image: auth-service:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 80
@@ -31,25 +31,27 @@ spec:
                 secretKeyRef:
                   name: innowise-app-secret
                   key: DB_PASSWORD
-            - name: DB_USER_SCHEMA
+            - name: DB_AUTH_SCHEMA
               valueFrom:
                 secretKeyRef:
                   name: innowise-app-secret
-                  key: DB_USER_SCHEMA
+                  key: DB_AUTH_SCHEMA
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: innowise-app-secret
+                  key: JWT_KEY
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://user-db:5432/$(DB_USER_SCHEMA)"
-          envFrom:
-            - configMapRef:
-                name: user-service-config
+              value: "jdbc:postgresql://auth-db:5432/$(DB_AUTH_SCHEMA)"
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-service
+  name: auth-service
 spec:
   selector:
-    app: user-service
+    app: auth-service
   ports:
     - protocol: TCP
       port: 80
