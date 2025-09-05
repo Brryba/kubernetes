@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-db-deployment
+  name: order-db-deployment
   labels:
-    app: user-db
+    app: order-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-db
+      app: order-db
   template:
     metadata:
       labels:
-        app: user-db
+        app: order-db
     spec:
       containers:
         - name: postgres
@@ -20,7 +20,7 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: user-db-pvc
+            - name: order-db-pvc
               mountPath: /var/lib/postgresql/data
           env:
             - name: POSTGRES_USER
@@ -36,22 +36,22 @@ spec:
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  key: DB_USER_SCHEMA
+                  key: DB_ORDER_SCHEMA
                   name: innowise-app-secret
       volumes:
-        - name: user-db-pvc
+        - name: order-db-pvc
           persistentVolumeClaim:
-            claimName: user-db-pvc
+            claimName: order-db-pvc
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-db
+  name: order-db
 spec:
   selector:
-    app: user-db
+    app: order-db
   ports:
     - protocol: TCP
       port: 5432

@@ -46,19 +46,6 @@ spec:
 ---
 
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: auth-db-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 500Mi
-
----
-
-apiVersion: v1
 kind: Service
 metadata:
   name: auth-db
