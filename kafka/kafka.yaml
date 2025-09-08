@@ -39,6 +39,8 @@ spec:
               value: "PLAINTEXT://kafka-service:9092"
             - name: KAFKA_LOG_DIRS
               value: "/var/lib/kafka/data"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
       volumes:
         - name: kafka-storage
           persistentVolumeClaim:

@@ -23,17 +23,17 @@ spec:
             - name: payment-db-pvc
               mountPath: /data/db
           env:
-            - name: MONGO_USER
+            - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                 secretKeyRef:
                   key: MONGO_USER
                   name: innowise-app-secret
-            - name: MONGO_PASSWORD
+            - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: MONGO_PASSWORD
-                  name: my-app-secret
-            - name: MONGO_DB
+                  name: innowise-app-secret
+            - name: MONGO_INITDB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: MONGO_DB

@@ -36,6 +36,8 @@ spec:
                 secretKeyRef:
                   name: innowise-app-secret
                   key: DB_ORDER_SCHEMA
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://order-db:5432/$(DB_ORDER_SCHEMA)
           envFrom:
             - configMapRef:
                 name: order-service-config
