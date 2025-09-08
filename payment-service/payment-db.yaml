@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-db-deployment
+  labels:
+    app: payment-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-db
+  template:
+    metadata:
+      labels:
+        app: payment-db
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: payment-db-pvc
+              mountPath: /data/db
+          env:
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  key: MONGO_USER
+                  name: innowise-app-secret
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: MONGO_PASSWORD
+                  name: my-app-secret
+            - name: MONGO_DB
+              valueFrom:
+                secretKeyRef:
+                  key: MONGO_DB
+                  name: innowise-app-secret
+      volumes:
+        - name: payment-db-pvc
+          persistentVolumeClaim:
+            claimName: payment-db-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-db
+spec:
+  selector:
+    app: payment-db
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017

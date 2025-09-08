@@ -1,53 +1,58 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-service-deployment
+  name: payment-service-deployment
   labels:
-    app: order-service
+    app: payment-service
 spec:
-  replicas: 1
+  replicas: 1 
   selector:
     matchLabels:
-      app: order-service
+      app: payment-service
   template:
     metadata:
       labels:
-        app: order-service
+        app: payment-service
     spec:
       containers:
-        - name: order-service
-          image: order-service:latest
+        - name: payment-service
+          image: payment-service:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 80
           env:
-            - name: SPRING_DATASOURCE_USERNAME
+            - name: MONGO_USER
               valueFrom:
                 secretKeyRef:
                   name: innowise-app-secret
-                  key: DB_USER
-            - name: SPRING_DATASOURCE_PASSWORD
+                  key: MONGO_USER
+            - name: MONGO_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: innowise-app-secret
-                  key: DB_PASSWORD
-            - name: DB_ORDER_SCHEMA
+                  key: MONGO_PASSWORD
+            - name: MONGO_DB
               valueFrom:
                 secretKeyRef:
                   name: innowise-app-secret
-                  key: DB_ORDER_SCHEMA
+                  key: MONGO_DB
+            - name: MONGO_DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: innowise-app-secret
+                  key: MONGO_DB_URI
           envFrom:
             - configMapRef:
-                name: order-service-config
+                name: payment-service-config
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: order-service
+  name: payment-service
 spec:
   selector:
-    app: order-service
+    app: payment-service
   ports:
     - protocol: TCP
       port: 80
