@@ -17,6 +17,7 @@ spec:
       containers:
         - name: mongodb
           image: mongo:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 27017
           volumeMounts:
@@ -38,6 +39,20 @@ spec:
                 secretKeyRef:
                   key: MONGO_DB
                   name: innowise-app-secret
+          readinessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
       volumes:
         - name: payment-db-pvc
           persistentVolumeClaim:
