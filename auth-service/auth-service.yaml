@@ -43,6 +43,22 @@ spec:
                   key: JWT_KEY
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://auth-db:5432/$(DB_AUTH_SCHEMA)"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 80
+            initialDelaySeconds: 45
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 2
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 80
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            failureThreshold: 5
+            timeoutSeconds: 2
 
 ---
 apiVersion: v1
