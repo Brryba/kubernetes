@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-service-config
+data:
+  KAFKA_BOOTSTRAP: "kafka-service:9092"
+  MONGO_HOST: "payment-db"

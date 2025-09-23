@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: order-db-deployment
+  labels:
+    app: order-db
+spec:
+  replicas: 1
+  serviceName: order-db
+  selector:
+    matchLabels:
+      app: order-db
+  template:
+    metadata:
+      labels:
+        app: order-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: order-db-storage
+              mountPath: /var/lib/postgresql/data
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: DB_USER
+                  name: innowise-app-secret
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PASSWORD
+                  name: innowise-app-secret
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  key: DB_ORDER_SCHEMA
+                  name: innowise-app-secret
+          readinessProbe:
+            exec:
+              command: [ "pg_isready", "-q" ]
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 2
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - exec psql -U "$POSTGRES_USER" -d postgres -c "SELECT 1"
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 2
+      volumes:
+        - name: order-db-pvc
+          persistentVolumeClaim:
+            claimName: order-db-pvc
+  volumeClaimTemplates:
+    - metadata:
+        name: order-db-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 100Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-db
+spec:
+  selector:
+    app: order-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
