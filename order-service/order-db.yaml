@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: order-db-deployment
   labels:
     app: order-db
 spec:
   replicas: 1
+  serviceName: order-db
   selector:
     matchLabels:
       app: order-db
@@ -20,7 +21,7 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: order-db-pvc
+            - name: order-db-storage
               mountPath: /var/lib/postgresql/data
           env:
             - name: POSTGRES_USER
@@ -59,6 +60,14 @@ spec:
         - name: order-db-pvc
           persistentVolumeClaim:
             claimName: order-db-pvc
+  volumeClaimTemplates:
+    - metadata:
+        name: order-db-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 100Mi
 
 ---
 

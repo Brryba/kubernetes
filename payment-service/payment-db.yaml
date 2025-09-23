@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: payment-db-deployment
+  name: payment-db-stateful-set
   labels:
     app: payment-db
 spec:
   replicas: 1
+  serviceName: payment-db
   selector:
     matchLabels:
       app: payment-db
@@ -21,7 +22,7 @@ spec:
           ports:
             - containerPort: 27017
           volumeMounts:
-            - name: payment-db-pvc
+            - name: payment-db-storage
               mountPath: /data/db
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
@@ -53,10 +54,14 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 2
             failureThreshold: 3
-      volumes:
-        - name: payment-db-pvc
-          persistentVolumeClaim:
-            claimName: payment-db-pvc
+  volumeClaimTemplates:
+    - metadata:
+        name: payment-db-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 100Mi
 
 ---
 

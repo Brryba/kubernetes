@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: user-redis-deployment
+  name: user-redis-stateful-set
   labels:
     app: user-redis
 spec:
   replicas: 1
+  serviceName: user-redis
   selector:
     matchLabels:
       app: user-redis
@@ -19,6 +20,9 @@ spec:
           image: redis:alpine
           ports:
             - containerPort: 6379
+          volumeMounts:
+            - name: user-redis-storage
+              mountPath: /data
           livenessProbe:
             exec:
               command:
@@ -37,6 +41,14 @@ spec:
             periodSeconds: 10
             failureThreshold: 3
             timeoutSeconds: 2
+  volumeClaimTemplates:
+    - metadata:
+        name: user-redis-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 100Mi
 
 ---
 apiVersion: v1

@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: user-db-deployment
+  name: user-db-stateful-set
   labels:
     app: user-db
 spec:
   replicas: 1
+  serviceName: user-db
   selector:
     matchLabels:
       app: user-db
@@ -20,7 +21,7 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: user-db-pvc
+            - name: user-db-storage
               mountPath: /var/lib/postgresql/data
           env:
             - name: POSTGRES_USER
@@ -55,10 +56,14 @@ spec:
             periodSeconds: 10
             failureThreshold: 3
             timeoutSeconds: 2
-      volumes:
-        - name: user-db-pvc
-          persistentVolumeClaim:
-            claimName: user-db-pvc
+  volumeClaimTemplates:
+    - metadata:
+        name: user-db-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 100Mi
 
 ---
 
