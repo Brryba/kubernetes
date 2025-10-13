@@ -1,30 +1,33 @@
-replicaCount: 1
+common-chart:
+  replicaCount: 1
 
-image:
-  repository: auth-service
-  tag: latest
-  pullPolicy: Never
+  image:
+    repository: auth-service
+    tag: latest
 
-service:
-  type: ClusterIP
-  port: 80
+  service:
+    name: auth-service
 
-probes:
-  liveness:
-    path: /actuator/health/liveness
-    port: http
-    initialDelaySeconds: 45
-    periodSeconds: 5
-    failureThreshold: 5
-    timeoutSeconds: 2
-  readiness:
-    path: /actuator/health/readiness
-    port: 80
-    initialDelaySeconds: 45
-    periodSeconds: 10
-    failureThreshold: 3
-    timeoutSeconds: 2
-
-database:
-  host: auth-db
-  port: 5432
+  env:
+    - name: SPRING_DATASOURCE_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_USER
+    - name: SPRING_DATASOURCE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_PASSWORD
+    - name: DB_AUTH_SCHEMA
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_AUTH_SCHEMA
+    - name: JWT_KEY
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: JWT_KEY
+    - name: SPRING_DATASOURCE_URL
+      value: "jdbc:postgresql://auth-db:5432/$(DB_AUTH_SCHEMA)"

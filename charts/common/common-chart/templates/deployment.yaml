@@ -21,28 +21,7 @@ spec:
           ports:
             - containerPort: {{ .Values.service.port }}
           env:
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: innowise-app-secret
-                  key: DB_USER
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: innowise-app-secret
-                  key: DB_PASSWORD
-            - name: DB_AUTH_SCHEMA
-              valueFrom:
-                secretKeyRef:
-                  name: innowise-app-secret
-                  key: DB_AUTH_SCHEMA
-            - name: JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: innowise-app-secret
-                  key: JWT_KEY
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.database.host }}:{{ .Values.database.port }}/$(DB_AUTH_SCHEMA)"
+            {{- toYaml .Values.env | nindent 12 }}
 
           readinessProbe:
             httpGet:
