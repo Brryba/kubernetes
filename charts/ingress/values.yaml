@@ -4,3 +4,8 @@ backend:
   apiPrefix: /api
   serviceName: api-gateway
   port: 80
+
+frontend:
+  apiPrefix: /
+  serviceName: frontend
+  port: 80

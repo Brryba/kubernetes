@@ -2,13 +2,11 @@ helm install auth-postgres bitnami/postgresql -f auth/postgres/postgres-values.y
 helm install user-postgres bitnami/postgresql -f user/postgres/postgres-values.yaml
 helm install order-postgres bitnami/postgresql -f order/postgres/postgres-values.yaml
 helm install user-redis bitnami/redis -f user/redis/redis-values.yaml
-helm install user-redis bitnami/redis -f payment/mongo/mongo-values.yaml
+helm install payment-mongo bitnami/mongodb -f payment/mongo/mongo-values.yaml
 
 cd kafka || exit
 helm install kafka .
 cd ..
-
-sleep 10
 
 cd auth/microservice || exit
 helm dependency update
@@ -32,5 +30,9 @@ cd ../..
 
 cd gateway || exit
 helm dependency update
-helm install payment-service-release .
+helm install api-gateway-release .
 cd ..
+
+helm install ingress ingress/.
+
+helm install react-frontend frontend/.

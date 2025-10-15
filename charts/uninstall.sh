@@ -14,3 +14,6 @@ helm uninstall payment-mongo
 helm uninstall kafka
 
 helm uninstall api-gateway-release
+helm uninstall ingress
+
+helm uninstall react-frontend

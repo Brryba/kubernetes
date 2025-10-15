@@ -1,0 +1,9 @@
+replicas: 1
+
+application:
+  port: 80
+  image: react-frontend
+
+service:
+  port: 80
+  name: frontend

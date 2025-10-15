@@ -1,0 +1,1 @@
+helm install react-frontend .

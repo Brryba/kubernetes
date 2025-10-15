@@ -16,7 +16,7 @@ probes:
   liveness:
     path: /actuator/health/liveness
     port: http
-    initialDelaySeconds: 100
+    initialDelaySeconds: 150
     periodSeconds: 5
     failureThreshold: 5
     timeoutSeconds: 2
