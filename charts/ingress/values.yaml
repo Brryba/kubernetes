@@ -1,0 +1,6 @@
+className: nginx
+
+backend:
+  apiPrefix: /api
+  serviceName: api-gateway
+  port: 80
