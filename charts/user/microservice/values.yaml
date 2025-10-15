@@ -27,6 +27,6 @@ common-chart:
     - name: SPRING_DATASOURCE_URL
       value: "jdbc:postgresql://user-db:5432/$(DB_USER_SCHEMA)"
     - name: SPRING_DATA_REDIS_HOST
-      value: "user-redis"
+      value: "user-redis-master"
     - name: SPRING_DATA_REDIS_PORT
       value: "6379"

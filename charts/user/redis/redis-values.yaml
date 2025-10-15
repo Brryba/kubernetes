@@ -1,4 +1,8 @@
+architecture: standalone
+
 master:
+  service:
+    create: false
   persistence:
     enabled: true
     size: 100Mi
@@ -7,6 +11,9 @@ replica:
   replicaCount: 0
 
 sentinel:
+  enabled: false
+
+auth:
   enabled: false
 
 fullnameOverride: "user-redis"
