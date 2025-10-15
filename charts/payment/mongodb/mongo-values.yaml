@@ -1,0 +1,15 @@
+architecture: standalone
+
+auth:
+  rootUser: Bryba
+  existingSecret: innowise-app-secret
+
+persistence:
+  enabled: true
+  size: 100Mi
+
+replicaSet:
+  enabled: false
+
+service:
+  nameOverride: payment-db

@@ -1,0 +1,1 @@
+helm install payment-mongo bitnami/mongodb -f mongo-values.yaml

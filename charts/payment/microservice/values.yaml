@@ -1,0 +1,35 @@
+common-chart:
+  replicaCount: 1
+
+  image:
+    repository: payment-service
+    tag: latest
+
+  service:
+    name: payment-service
+
+  env:
+    - name: MONGO_USER
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: MONGO_USER
+    - name: MONGO_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: MONGO_PASSWORD
+    - name: MONGO_DB
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: MONGO_DB
+    - name: MONGO_DB_URI
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: MONGO_DB_URI
+    - name: KAFKA_BOOTSTRAP
+      value: kafka-service:9092
+    - name: MONGO_HOST
+      value: payment-db
