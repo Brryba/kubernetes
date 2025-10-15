@@ -1,0 +1,15 @@
+replicas: 1
+
+ports:
+  client: 9092
+  internal: 9093
+
+container:
+  name: kafka
+  image: apache/kafka:latest
+
+storage:
+  size: 100Mi
+
+service:
+  name: kafka-service

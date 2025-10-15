@@ -1,0 +1,32 @@
+common-chart:
+  replicaCount: 1
+
+  image:
+    repository: user-service
+    tag: latest
+
+  service:
+    name: user-service
+
+  env:
+    - name: SPRING_DATASOURCE_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_USER
+    - name: SPRING_DATASOURCE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_PASSWORD
+    - name: DB_USER_SCHEMA
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_USER_SCHEMA
+    - name: SPRING_DATASOURCE_URL
+      value: "jdbc:postgresql://user-db:5432/$(DB_USER_SCHEMA)"
+    - name: SPRING_DATA_REDIS_HOST
+      value: "user-redis"
+    - name: SPRING_DATA_REDIS_PORT
+      value: "6379"

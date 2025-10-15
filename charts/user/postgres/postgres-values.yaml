@@ -1,0 +1,18 @@
+auth:
+  username: "user"
+  database: "user_service"
+  existingSecret: innowise-app-secret
+  secretKeys:
+    adminPasswordKey: DB_PASSWORD
+    userPasswordKey: DB_PASSWORD
+
+persistence:
+  enabled: true
+  size: 100Mi
+
+fullnameOverride: "user-db"
+
+service:
+  type: ClusterIP
+  ports:
+    postgresql: 5432

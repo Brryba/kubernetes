@@ -1,0 +1,1 @@
+helm install order-postgres bitnami/postgresql -f postgres-values.yaml

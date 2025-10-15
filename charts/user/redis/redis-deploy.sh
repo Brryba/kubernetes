@@ -1,0 +1,1 @@
+helm install user-redis bitnami/redis -f redis-values.yaml

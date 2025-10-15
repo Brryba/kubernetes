@@ -1,0 +1,17 @@
+master:
+  persistence:
+    enabled: true
+    size: 100Mi
+
+replica:
+  replicaCount: 0
+
+sentinel:
+  enabled: false
+
+fullnameOverride: "user-redis"
+
+service:
+  type: ClusterIP
+  ports:
+    postgresql: 6379
