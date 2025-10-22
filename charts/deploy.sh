@@ -1,7 +1,7 @@
 helm install auth-postgres bitnami/postgresql -f auth/postgres/postgres-values.yaml
 helm install user-postgres bitnami/postgresql -f user/postgres/postgres-values.yaml
-helm install order-postgres bitnami/postgresql -f order/postgres/postgres-values.yaml
 helm install user-redis bitnami/redis -f user/redis/redis-values.yaml
+helm install order-postgres bitnami/postgresql -f order/postgres/postgres-values.yaml
 helm install payment-mongo bitnami/mongodb -f payment/mongo/mongo-values.yaml
 
 cd kafka || exit
