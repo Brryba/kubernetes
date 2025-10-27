@@ -5,7 +5,7 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   selector:
-    app: {{ .Release.Name }}
+    {{- include "common-chart.selectorLabels" . | nindent 4 }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.port }}
