@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.container.name }}
-          image: {{ .Values.container.image }}
+          image: {{ .Values.container.image }}:{{ .Values.container.version }}
           ports:
             - containerPort: {{ .Values.ports.client }}
               name: kafka

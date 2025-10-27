@@ -6,4 +6,6 @@ application:
 
 service:
   port: 80
-  name: frontend
+  image:
+    name: frontend
+    version: latest

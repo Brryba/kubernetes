@@ -6,7 +6,8 @@ ports:
 
 container:
   name: kafka
-  image: apache/kafka:latest
+  image: apache/kafka
+  version: latest
 
 storage:
   size: 100Mi
