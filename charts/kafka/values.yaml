@@ -1,16 +1,11 @@
-replicas: 1
+kafka:
+  image:
+    repository: bitnamilegacy/kafka
+  controller:
+    replicaCount: 1
 
-ports:
-  client: 9092
-  internal: 9093
+  broker:
+    persistence:
+      size: 100Mi
 
-container:
-  name: kafka
-  image: apache/kafka
-  version: latest
-
-storage:
-  size: 100Mi
-
-service:
-  name: kafka-service
+  fullnameOverride: kafka-service
