@@ -8,6 +8,10 @@ common-chart:
   service:
     name: user-service
 
+  configMapData:
+    SPRING_DATA_REDIS_HOST: "user-redis-master"
+    SPRING_DATA_REDIS_PORT: "6379"
+
   env:
     - name: SPRING_DATASOURCE_USERNAME
       valueFrom:
@@ -26,10 +30,6 @@ common-chart:
           key: DB_USER_SCHEMA
     - name: SPRING_DATASOURCE_URL
       value: "jdbc:postgresql://user-db:5432/$(DB_USER_SCHEMA)"
-    - name: SPRING_DATA_REDIS_HOST
-      value: "user-redis-master"
-    - name: SPRING_DATA_REDIS_PORT
-      value: "6379"
 
 postgresql:
   auth:

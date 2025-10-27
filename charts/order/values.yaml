@@ -8,6 +8,10 @@ common-chart:
   service:
     name: order-service
 
+  configMapData:
+    KAFKA_BOOTSTRAP: "kafka-service:9092"
+    USER_SERVICE_URL: "http://user-service:80"
+
   env:
     - name: SPRING_DATASOURCE_USERNAME
       valueFrom:
@@ -26,10 +30,6 @@ common-chart:
           key: DB_ORDER_SCHEMA
     - name: SPRING_DATASOURCE_URL
       value: jdbc:postgresql://order-db:5432/$(DB_ORDER_SCHEMA)
-    - name: KAFKA_BOOTSTRAP
-      value: kafka-service:9092
-    - name: USER_SERVICE_URL
-      value: http://user-service:80
 
 postgresql:
   auth:
@@ -50,3 +50,4 @@ postgresql:
     type: ClusterIP
     ports:
       postgresql: 5432
+

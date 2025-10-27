@@ -8,17 +8,16 @@ common-chart:
   service:
     name: api-gateway
 
+  configMapData:
+    USER_SERVICE_URL: http://user-service:80
+    AUTH_SERVICE_URL: http://auth-service:80
+    ORDER_SERVICE_URL: http://order-service:80
+    PAYMENT_SERVICE_URL: http://payment-service:80
+    CAMUNDA_URL: http://camunda:80
+
   env:
     - name: ACCESS_TOKEN_JWT_SECRET
       valueFrom:
         secretKeyRef:
           name: innowise-app-secret
           key: ACCESS_TOKEN_JWT_SECRET
-    - name: USER_SERVICE_URL
-      value: http://user-service:80
-    - name: AUTH_SERVICE_URL
-      value: http://auth-service:80
-    - name: ORDER_SERVICE_URL
-      value: http://order-service:80
-    - name: PAYMENT_SERVICE_URL
-      value: http://payment-service:80

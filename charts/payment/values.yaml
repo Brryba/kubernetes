@@ -8,6 +8,10 @@ common-chart:
   service:
     name: payment-service
 
+  configMapData:
+    KAFKA_BOOTSTRAP: "kafka-service:9092"
+    MONGO_HOST: "payment-db"
+
   env:
     - name: MONGO_USER
       valueFrom:

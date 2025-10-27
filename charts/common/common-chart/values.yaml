@@ -10,6 +10,8 @@ service:
   port: 80
   name: service-default
 
+configMapData: []
+
 env: []
 
 probes:
