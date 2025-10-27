@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "common-chart.fullname" }}-deployment
+  name: {{ include "common-chart.fullname" . }}-deployment
   labels:
-    app: {{ include "common-chart.fullname" }}
+    app: {{ include "common-chart.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -12,17 +12,17 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "common-chart.selectorLabels" . | nindent 6 }}
+        {{- include "common-chart.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: {{ include "common-chart.fullname" }}
+        - name: {{ include "common-chart.fullname" . }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.port }}
           envFrom:
             - configMapRef:
-                name: {{ include "common-chart.fullname" }}-config
+                name: {{ include "common-chart.fullname" . }}-config
           env:
             {{- toYaml .Values.env | nindent 12 }}
 

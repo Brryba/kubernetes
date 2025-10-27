@@ -10,7 +10,7 @@ service:
   port: 80
   name: service-default
 
-configMapData: []
+configMapData:
 
 env: []
 
