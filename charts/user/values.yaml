@@ -30,3 +30,49 @@ common-chart:
       value: "user-redis-master"
     - name: SPRING_DATA_REDIS_PORT
       value: "6379"
+
+postgresql:
+  auth:
+    username: "user"
+    database: "user_service"
+    existingSecret: innowise-app-secret
+    secretKeys:
+      adminPasswordKey: DB_PASSWORD
+      userPasswordKey: DB_PASSWORD
+
+  persistence:
+    enabled: true
+    size: 100Mi
+
+  fullnameOverride: "user-db"
+
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 5432
+
+redis:
+  architecture: standalone
+
+  master:
+    service:
+      create: false
+    persistence:
+      enabled: true
+      size: 100Mi
+
+  replica:
+    replicaCount: 0
+
+  sentinel:
+    enabled: false
+
+  auth:
+    enabled: false
+
+  fullnameOverride: "user-redis"
+
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 6379

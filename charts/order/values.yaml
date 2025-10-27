@@ -30,3 +30,23 @@ common-chart:
       value: kafka-service:9092
     - name: USER_SERVICE_URL
       value: http://user-service:80
+
+postgresql:
+  auth:
+    username: "user"
+    database: "order_service"
+    existingSecret: innowise-app-secret
+    secretKeys:
+      adminPasswordKey: DB_PASSWORD
+      userPasswordKey: DB_PASSWORD
+
+  persistence:
+    enabled: true
+    size: 100Mi
+
+  fullnameOverride: "order-db"
+
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 5432
