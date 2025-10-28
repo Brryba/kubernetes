@@ -1,0 +1,39 @@
+camunda-bpm-platform:
+  general:
+    fullnameOverride: camunda
+    replicaCount: 1
+
+  database:
+    driver: org.postgresql.Driver
+    url: jdbc:postgresql://camunda-db:5432/process-engine
+    credentialsSecretName: innowise-app-secret
+    credentialsSecretEnabled: true
+    credentialsSecretKeys:
+      username: DB_USER
+      password: DB_PASSWORD
+
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 8080
+
+
+postgresql:
+  auth:
+    username: "user"
+    database: "process-engine"
+    existingSecret: innowise-app-secret
+    secretKeys:
+      adminPasswordKey: DB_PASSWORD
+      userPasswordKey: DB_PASSWORD
+
+  persistence:
+    enabled: true
+    size: 100Mi
+
+  fullnameOverride: "camunda-db"
+
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 5432

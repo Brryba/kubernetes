@@ -11,6 +11,7 @@ common-chart:
   configMapData:
     SPRING_DATA_REDIS_HOST: "user-redis-master"
     SPRING_DATA_REDIS_PORT: "6379"
+    CAMUNDA_URL: http://camunda:80
 
   env:
     - name: SPRING_DATASOURCE_USERNAME
