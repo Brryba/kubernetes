@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: {{ .Values.service.image.name }}:{{ .Values.service.image.version }}
+          image: {{ .Values.application.image.name }}:{{ .Values.application.image.version }}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: {{ .Values.application.port }}

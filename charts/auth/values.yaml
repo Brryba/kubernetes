@@ -9,7 +9,7 @@ common-chart:
     name: auth-service
 
   configMapData:
-    CAMUNDA_URL: http://camunda:80
+    CAMUNDA_URL: http://camunda:8080/engine-rest
 
   env:
     - name: SPRING_DATASOURCE_USERNAME

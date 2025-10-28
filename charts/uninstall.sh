@@ -13,3 +13,5 @@ helm uninstall api-gateway-release
 helm uninstall ingress
 
 helm uninstall react-frontend
+
+helm uninstall camunda-release

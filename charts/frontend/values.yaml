@@ -2,10 +2,10 @@ replicas: 1
 
 application:
   port: 80
-  image: react-frontend
+  image:
+    name: react-frontend
+    version: latest
 
 service:
+  name: frontend
   port: 80
-  image:
-    name: frontend
-    version: latest

@@ -13,7 +13,7 @@ common-chart:
     AUTH_SERVICE_URL: http://auth-service:80
     ORDER_SERVICE_URL: http://order-service:80
     PAYMENT_SERVICE_URL: http://payment-service:80
-    CAMUNDA_URL: http://camunda:80
+    CAMUNDA_URL: http://camunda:8080
 
   env:
     - name: ACCESS_TOKEN_JWT_SECRET

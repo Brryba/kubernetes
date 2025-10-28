@@ -27,6 +27,11 @@ helm dependency update
 helm install api-gateway-release .
 cd ..
 
+cd camunda || exit
+helm dependency update
+helm install camunda-release .
+cd ..
+
 helm install ingress ingress/.
 
 helm install react-frontend frontend/.

@@ -12,11 +12,6 @@ camunda-bpm-platform:
       username: DB_USER
       password: DB_PASSWORD
 
-  service:
-    type: ClusterIP
-    port: 80
-    targetPort: 8080
-
 
 postgresql:
   auth:
