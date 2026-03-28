@@ -1,0 +1,53 @@
+common-chart:
+  replicaCount: 1
+
+  image:
+    repository: order-service
+    tag: latest
+
+  service:
+    name: order-service
+
+  configMapData:
+    KAFKA_BOOTSTRAP: "kafka-service:9092"
+    USER_SERVICE_URL: "http://user-service:80"
+
+  env:
+    - name: SPRING_DATASOURCE_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_USER
+    - name: SPRING_DATASOURCE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_PASSWORD
+    - name: DB_ORDER_SCHEMA
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_ORDER_SCHEMA
+    - name: SPRING_DATASOURCE_URL
+      value: jdbc:postgresql://order-db:5432/$(DB_ORDER_SCHEMA)
+
+postgresql:
+  auth:
+    username: "user"
+    database: "order_service"
+    existingSecret: innowise-app-secret
+    secretKeys:
+      adminPasswordKey: DB_PASSWORD
+      userPasswordKey: DB_PASSWORD
+
+  persistence:
+    enabled: true
+    size: 100Mi
+
+  fullnameOverride: "order-db"
+
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 5432
+

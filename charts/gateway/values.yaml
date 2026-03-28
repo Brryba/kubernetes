@@ -1,0 +1,23 @@
+common-chart:
+  replicaCount: 1
+
+  image:
+    repository: api-gateway
+    tag: latest
+
+  service:
+    name: api-gateway
+
+  configMapData:
+    USER_SERVICE_URL: http://user-service:80
+    AUTH_SERVICE_URL: http://auth-service:80
+    ORDER_SERVICE_URL: http://order-service:80
+    PAYMENT_SERVICE_URL: http://payment-service:80
+    CAMUNDA_URL: http://camunda:8080
+
+  env:
+    - name: ACCESS_TOKEN_JWT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: ACCESS_TOKEN_JWT_SECRET

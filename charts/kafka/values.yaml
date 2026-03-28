@@ -1,0 +1,11 @@
+kafka:
+  image:
+    repository: bitnamilegacy/kafka
+  controller:
+    replicaCount: 1
+
+  broker:
+    persistence:
+      size: 100Mi
+
+  fullnameOverride: kafka-service

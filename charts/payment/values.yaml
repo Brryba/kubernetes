@@ -1,0 +1,56 @@
+common-chart:
+  replicaCount: 1
+
+  image:
+    repository: payment-service
+    tag: latest
+
+  service:
+    name: payment-service
+
+  configMapData:
+    KAFKA_BOOTSTRAP: "kafka-service:9092"
+    MONGO_HOST: "payment-db"
+
+  env:
+    - name: MONGO_USER
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: MONGO_USER
+    - name: MONGO_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: MONGO_PASSWORD
+    - name: MONGO_DB
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: MONGO_DB
+    - name: MONGO_DB_URI
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: MONGO_DB_URI
+    - name: KAFKA_BOOTSTRAP
+      value: kafka-service:9092
+    - name: MONGO_HOST
+      value: payment-db
+
+mongodb:
+  architecture: standalone
+
+  auth:
+    rootUser: Bryba
+    existingSecret: innowise-app-secret
+
+  persistence:
+    enabled: true
+    size: 100Mi
+
+  replicaSet:
+    enabled: false
+
+  service:
+    nameOverride: payment-db

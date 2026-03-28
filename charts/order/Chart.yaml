@@ -1,0 +1,16 @@
+apiVersion: v2
+name: order-service
+description: A service storing items and allowing users to make the orders
+
+type: application
+version: 1.0.1
+appVersion: "1.0.0"
+
+dependencies:
+  - name: common-chart
+    version: "1.0.1"
+    repository: "file://../common/common-chart"
+
+  - name: postgresql
+    version: "18.1.1"
+    repository: "oci://registry-1.docker.io/bitnamicharts"

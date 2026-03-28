@@ -1,0 +1,56 @@
+common-chart:
+  replicaCount: 1
+
+  image:
+    repository: auth-service
+    tag: latest
+
+  service:
+    name: auth-service
+
+  configMapData:
+    CAMUNDA_URL: http://camunda:8080/engine-rest
+
+  env:
+    - name: SPRING_DATASOURCE_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_USER
+    - name: SPRING_DATASOURCE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_PASSWORD
+    - name: DB_AUTH_SCHEMA
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_AUTH_SCHEMA
+    - name: ACCESS_TOKEN_JWT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: ACCESS_TOKEN_JWT_SECRET
+    - name: SPRING_DATASOURCE_URL
+      value: "jdbc:postgresql://auth-db:5432/$(DB_AUTH_SCHEMA)"
+
+postgresql:
+  auth:
+    username: "user"
+    database: "auth_service"
+    existingSecret: innowise-app-secret
+    secretKeys:
+      adminPasswordKey: DB_PASSWORD
+      userPasswordKey: DB_PASSWORD
+
+  persistence:
+    enabled: true
+    size: 100Mi
+
+  fullnameOverride: "auth-db"
+
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 5432

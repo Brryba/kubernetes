@@ -1,0 +1,79 @@
+common-chart:
+  replicaCount: 1
+
+  image:
+    repository: user-service
+    tag: latest
+
+  service:
+    name: user-service
+
+  configMapData:
+    SPRING_DATA_REDIS_HOST: "user-redis-master"
+    SPRING_DATA_REDIS_PORT: "6379"
+    CAMUNDA_URL: http://camunda:8080/engine-rest
+
+  env:
+    - name: SPRING_DATASOURCE_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_USER
+    - name: SPRING_DATASOURCE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_PASSWORD
+    - name: DB_USER_SCHEMA
+      valueFrom:
+        secretKeyRef:
+          name: innowise-app-secret
+          key: DB_USER_SCHEMA
+    - name: SPRING_DATASOURCE_URL
+      value: "jdbc:postgresql://user-db:5432/$(DB_USER_SCHEMA)"
+
+postgresql:
+  auth:
+    username: "user"
+    database: "user_service"
+    existingSecret: innowise-app-secret
+    secretKeys:
+      adminPasswordKey: DB_PASSWORD
+      userPasswordKey: DB_PASSWORD
+
+  persistence:
+    enabled: true
+    size: 100Mi
+
+  fullnameOverride: "user-db"
+
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 5432
+
+redis:
+  architecture: standalone
+
+  master:
+    service:
+      create: false
+    persistence:
+      enabled: true
+      size: 100Mi
+
+  replica:
+    replicaCount: 0
+
+  sentinel:
+    enabled: false
+
+  auth:
+    enabled: false
+
+  fullnameOverride: "user-redis"
+
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 6379

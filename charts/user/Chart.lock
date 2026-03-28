@@ -1,0 +1,12 @@
+dependencies:
+- name: common-chart
+  repository: file://../common/common-chart
+  version: 1.0.1
+- name: postgresql
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 18.1.1
+- name: redis
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 23.2.2
+digest: sha256:21477752d78a920d2e397247a2f73ac51ef50aa28ed0310a28c86c3d1ca95b65
+generated: "2025-10-27T15:14:57.4272995+03:00"

@@ -1,0 +1,31 @@
+replicaCount: 1
+
+image:
+  tag: latest
+  pullPolicy: IfNotPresent
+  repository: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  name: service-default
+
+configMapData:
+
+env: []
+
+probes:
+  liveness:
+    path: /actuator/health/liveness
+    port: http
+    initialDelaySeconds: 150
+    periodSeconds: 5
+    failureThreshold: 5
+    timeoutSeconds: 2
+  readiness:
+    path: /actuator/health/readiness
+    port: 80
+    initialDelaySeconds: 36
+    periodSeconds: 10
+    failureThreshold: 3
+    timeoutSeconds: 2
